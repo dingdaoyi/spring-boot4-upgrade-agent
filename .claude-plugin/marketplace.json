@@ -1,22 +1,15 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "spring-boot4-upgrade",
+  "description": "Spring Boot 3.5 to 4.x migration skills and diagnostics.",
   "owner": {
     "name": "dingdaoyi"
-  },
-  "metadata": {
-    "description": "Audit and execute evidence-based Spring Boot 3.5 to 4.x migrations",
-    "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "spring-boot4-upgrade",
-      "source": {
-        "source": "url",
-        "url": "https://github.com/dingdaoyi/spring-boot4-upgrade-agent.git"
-      },
-      "description": "Audit, plan, execute, diagnose, and verify Spring Boot 3.5 to 4.x upgrades. 21 production-verified traps, Jackson 3 migration, Security 7 lambda DSL, virtual threads, JVM flags, K8s triage. Works with Claude Code and Codex CLI.",
-      "version": "1.0.0",
-      "strict": false
+      "source": ".",
+      "description": "Evidence-first Spring Boot 3.5 to 4.x migration skill for Maven and Gradle. Covers modular starters, Jackson 3, Spring Security 7, test migration, dependency and bytecode diagnosis, JVM and container checks, database migrations, and Kubernetes runtime verification."
     }
   ]
 }
