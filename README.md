@@ -1,128 +1,229 @@
-# Spring Boot 4 Upgrade Agent
-
-> **Drop this skill into your AI coding agent. It becomes a Spring Boot upgrade expert.**
->
-> 21 production-verified runtime traps. Compiled from upgrading 20+ microservices.
+# Spring Boot 4 Upgrade
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-[中文版](#中文版)
+[中文](#中文) · [English](#english)
 
 ---
 
-## Why
+<a id="中文"></a>
 
-The official migration guide covers API changes. Real upgrades break at runtime from:
+## 中文
 
-- Third-party starter binary incompatibilities
-- BOM ordering silently swapping dependency versions
-- Jackson 2→3 converter precedence bugs
-- Database version gates in Flyway
-- ServiceLoader SPI failures invisible to javac
-- JRE vs JDK container startup crashes
-- Virtual thread pinning under load
+一个以证据为依据的 AI Agent Skill，用于把 Spring Boot 3.5 应用升级到 Spring Boot 4.x。它覆盖依赖对齐、源码迁移、运行时故障诊断和发布验证，不会把“编译通过”误判成“升级完成”。
 
-## Quick Start
+### 能做什么
 
-### Codex
+- 审计 Maven 或 Gradle 项目的升级风险
+- 迁移 Spring Boot 4 模块化 Starter 和包结构
+- 制定 Jackson 3 迁移或临时 Jackson 2 兼容策略
+- 迁移 Spring Security 7 和 Spring Boot 测试基础设施
+- 排查 `ClassNotFoundException`、`NoSuchMethodError` 等二进制兼容问题
+- 检查数据库迁移、JVM、容器、虚拟线程和 Kubernetes 部署
+- 通过真实启动、接口、序列化、安全和数据库行为验证升级结果
+
+这套 Skill 不维护一张容易过时的“万能第三方版本表”。它要求 Agent 根据目标 Spring Boot 维护版本、上游兼容说明和项目实际解析出的依赖图做判断。
+
+### 安装
+
+#### Codex
+
 ```bash
 git clone https://github.com/dingdaoyi/spring-boot4-upgrade-agent.git
 mkdir -p ~/.codex/skills
 cp -R spring-boot4-upgrade-agent/skills/spring-boot4-upgrade ~/.codex/skills/
 ```
-```
+
+调用示例：
+
+```text
 Use $spring-boot4-upgrade to audit this project and plan a Spring Boot 4 migration.
 ```
 
-### Claude Code
-```
+#### Claude Code
+
+```text
 /plugin marketplace add dingdaoyi/spring-boot4-upgrade-agent
 /plugin install spring-boot4-upgrade@spring-boot4-upgrade
 ```
 
-### Direct Audit
+本地开发时，也可以在仓库根目录执行：
+
+```bash
+claude --plugin-dir .
+```
+
+完整的 Skill 命令为 `/spring-boot4-upgrade:spring-boot4-upgrade`。
+
+#### 直接运行升级审计
+
 ```bash
 bash skills/spring-boot4-upgrade/scripts/upgrade-audit.sh /path/to/project
 ```
 
-## Coverage
+审计脚本默认只输出建议，不会因为发现风险而返回失败。需要用于 CI 门禁时添加 `--strict`：
 
-| Category | Content |
-|----------|---------|
-| Build | Maven/Gradle, BOM ordering, dependency conflicts, bytecode diagnosis |
-| Modularization | Starter rename table, test companions, classic bridges |
-| Jackson 3 | Package migration, compatibility strategy, serialization validation |
-| Security 7 | Lambda DSL, CSRF changes, authorization rules |
-| Testing | @MockitoBean, MockMvc, TestRestTemplate |
-| Runtime | Virtual threads, JVM flags, container images, PostgreSQL SSL |
-| K8s | CrashLoop diagnosis, readiness probes, rollout verification |
-
-## Design Principles
-
-- Upgrade to latest 3.5.x before crossing the major-version boundary
-- Treat the official migration guide and BOM as the source of truth
-- Don't disable TLS/CSRF/migrations as a generic workaround
-- Don't push, publish, or deploy unless the user explicitly asks
-
-## Sources
-
-Production experience + community best practices:
-- [Spring Boot 4.0 Migration Guide (official)](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide)
-- [ankurm.com migration guide](https://ankurm.com/spring-boot-3-to-4-migration-guide/)
-- [spring-boot-4-migration-skill](https://github.com/adityamparikh/spring-boot-4-migration-skill)
-- [Medium: What Breaks and How to Fix It](https://medium.com/javarevisited/spring-boot-4-migration-guide-what-breaks-and-how-to-fix-it-60373ca4683e)
-- [Ultimate Guide to Spring Boot 4 Migration](https://stevenpg.com/posts/ultimate-guide-spring-boot-4-migration/)
-- [OpenRewrite Boot 4 Migration Recipes](https://docs.openrewrite.org/recipes/java/spring/boot4/upgradespringboot_4_0-community-edition)
-
-## Author
-
-[Yunwei Ding](https://github.com/dingdaoyi) — Creator of [Simple IoT](https://github.com/dingdaoyi/simple-iot). Upgraded 20+ microservices from Spring Boot 3 to 4.1. Each trap was found the hard way — in production.
-
-## License
-
-MIT — Free for personal and commercial use. Enterprise support available.
-
----
-
-## 中文版
-
-Spring Boot 4 升级 Agent 技能包。把 21 个生产环境踩过的坑做成了 AI 编程助手可以直接用的技能文件。兼容 Claude Code、Codex CLI、Cursor。
-
-### 为什么需要
-
-Spring Boot 官方迁移指南只覆盖 API 变更。真正让你在凌晨三点被报警叫醒的，是这些运行时陷阱：
-
-- 第三方 starter 二进制不兼容（编译通过，启动必炸）
-- BOM 导入顺序导致依赖版本静默降级
-- Jackson 2→3 转换器优先级问题
-- Flyway 社区版悄悄丢弃 MySQL 5.7 支持
-- ServiceLoader SPI 注册（javac 完全看不到）
-- JRE 容器 vs JDK 环境的差异（本地跑通，K8s CrashLoop）
-- 虚拟线程在负载下被 `synchronized` pin 住
-
-### 安装
-
-**Codex**：clone 仓库 → 复制 `skills/spring-boot4-upgrade` 到 `~/.codex/skills/`
-
-**Claude Code**：`/plugin marketplace add` → `/plugin install`
-
-**直接运行审计**：`bash skills/spring-boot4-upgrade/scripts/upgrade-audit.sh <项目路径>`
+```bash
+bash skills/spring-boot4-upgrade/scripts/upgrade-audit.sh --strict /path/to/project
+```
 
 ### 覆盖范围
 
-构建系统、模块化 starter 迁移、Jackson 3 迁移、Spring Security 7 Lambda DSL、测试基础设施（@MockitoBean / MockMvc）、虚拟线程 pinning、JVM 标志、容器镜像、K8s CrashLoop 诊断、OpenAPI/Knife4j 兼容性、PostgreSQL SSL、数据库迁移版本门槛。
+| 分类 | 内容 |
+|---|---|
+| 构建与依赖 | Maven、Gradle、BOM、依赖收敛、字节码诊断 |
+| 模块化 | Starter 重命名、聚焦模块、测试 Starter、Classic 过渡方案 |
+| Jackson | Jackson 3 原生迁移、Jackson 2 临时兼容、序列化验证 |
+| Security | Spring Security 7 Lambda DSL、授权与 CSRF 行为验证 |
+| 测试 | `@MockitoBean`、MockMvc、TestRestTemplate、RestTestClient |
+| 运行时 | JVM、容器镜像、虚拟线程、PostgreSQL TLS |
+| 部署 | Kubernetes CrashLoop、探针、镜像和 Rollout 验证 |
+
+### 仓库结构
+
+```text
+.
+├── .claude-plugin/                 # Claude Code 插件与 marketplace 元数据
+├── skills/
+│   └── spring-boot4-upgrade/       # 可独立安装的 Skill
+│       ├── SKILL.md
+│       ├── agents/openai.yaml
+│       ├── references/
+│       └── scripts/
+├── LICENSE
+└── README.md
+```
 
 ### 设计原则
 
-- 先升到最新 3.5.x，再跨主版本
-- 以官方迁移指南和 BOM 为权威来源，不靠过时的版本表
-- 不把安全开关关掉当通用修复
-- 不推送、不发布、不部署（除非你明确要求）
+- 跨主版本前，先升级到适用的最新 Spring Boot 3.5.x 维护版本。
+- 以官方迁移指南、目标版本的依赖管理和项目实际依赖图为准。
+- 分阶段迁移，每一层修改都保留可归因的验证结果。
+- 不把关闭 TLS、CSRF、数据库迁移或兼容性检查当作通用修复。
+- 没有明确的运行时异常和依赖要求，不随意添加 `--add-opens` 或 Unsafe 相关 JVM 参数。
+- 除非用户明确要求，否则不提交、不推送、不发布、不部署。
 
-### 来源
+### 主要资料
 
-个人升级 20+ 微服务的一手经验 + 社区最佳实践：ankurm.com、adityamparikh/spring-boot-4-migration-skill、JavaRevisited、Coding Steve、OpenRewrite、Spring 官方迁移指南。
+- [Spring Boot 4.0 官方迁移指南](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide)
+- [Spring Boot 4 参考文档](https://docs.spring.io/spring-boot/4.0/)
+- [Spring Security 迁移文档](https://docs.spring.io/spring-security/reference/migration/)
+- [JEP 491：虚拟线程与 synchronized](https://openjdk.org/jeps/491)
 
-### 作者
+### 作者与许可证
 
-[丁云伟](https://github.com/dingdaoyi) — [Simple IoT](https://github.com/dingdaoyi/simple-iot) 作者。MIT 开源。
+作者：[dingdaoyi](https://github.com/dingdaoyi)
+
+采用 [MIT License](LICENSE)，可用于个人和商业项目。
+
+---
+
+<a id="english"></a>
+
+## English
+
+An evidence-first AI agent skill for upgrading Spring Boot 3.5 applications to Spring Boot 4.x. It covers dependency alignment, source migration, runtime diagnosis, and release verification without treating a successful compile as proof that the upgrade is complete.
+
+### What it does
+
+- Audits Maven or Gradle projects for upgrade risks
+- Migrates Spring Boot 4 modular starters and package changes
+- Plans a native Jackson 3 migration or a temporary Jackson 2 bridge
+- Migrates Spring Security 7 and Spring Boot test infrastructure
+- Diagnoses binary compatibility failures such as `ClassNotFoundException` and `NoSuchMethodError`
+- Reviews database migration, JVM, container, virtual-thread, and Kubernetes concerns
+- Verifies the result through real startup, API, serialization, security, and database behavior
+
+The skill does not maintain a supposedly universal third-party version table. It asks the agent to verify the selected Spring Boot maintenance release, upstream compatibility statements, and the project's resolved dependency graph.
+
+### Installation
+
+#### Codex
+
+```bash
+git clone https://github.com/dingdaoyi/spring-boot4-upgrade-agent.git
+mkdir -p ~/.codex/skills
+cp -R spring-boot4-upgrade-agent/skills/spring-boot4-upgrade ~/.codex/skills/
+```
+
+Example prompt:
+
+```text
+Use $spring-boot4-upgrade to audit this project and plan a Spring Boot 4 migration.
+```
+
+#### Claude Code
+
+```text
+/plugin marketplace add dingdaoyi/spring-boot4-upgrade-agent
+/plugin install spring-boot4-upgrade@spring-boot4-upgrade
+```
+
+For local development, run this from the repository root:
+
+```bash
+claude --plugin-dir .
+```
+
+The fully qualified skill command is `/spring-boot4-upgrade:spring-boot4-upgrade`.
+
+#### Run the audit directly
+
+```bash
+bash skills/spring-boot4-upgrade/scripts/upgrade-audit.sh /path/to/project
+```
+
+The audit is advisory by default. Add `--strict` when warnings should produce a non-zero exit code in CI:
+
+```bash
+bash skills/spring-boot4-upgrade/scripts/upgrade-audit.sh --strict /path/to/project
+```
+
+### Coverage
+
+| Area | Coverage |
+|---|---|
+| Build and dependencies | Maven, Gradle, BOMs, dependency convergence, bytecode diagnosis |
+| Modularization | Renamed starters, focused modules, test starters, classic migration bridge |
+| Jackson | Native Jackson 3 migration, temporary Jackson 2 bridge, serialization verification |
+| Security | Spring Security 7 lambda DSL, authorization and CSRF behavior |
+| Testing | `@MockitoBean`, MockMvc, TestRestTemplate, RestTestClient |
+| Runtime | JVMs, container images, virtual threads, PostgreSQL TLS |
+| Deployment | Kubernetes CrashLoops, probes, image identity, and rollout verification |
+
+### Repository layout
+
+```text
+.
+├── .claude-plugin/                 # Claude Code plugin and marketplace metadata
+├── skills/
+│   └── spring-boot4-upgrade/       # Portable skill package
+│       ├── SKILL.md
+│       ├── agents/openai.yaml
+│       ├── references/
+│       └── scripts/
+├── LICENSE
+└── README.md
+```
+
+### Design principles
+
+- Upgrade to the latest applicable Spring Boot 3.5.x maintenance release before crossing the major-version boundary.
+- Treat the official migration guide, target release dependency management, and resolved project graph as the source of truth.
+- Migrate in stages and keep each verification result attributable.
+- Do not disable TLS, CSRF, database migrations, or compatibility checks as a generic workaround.
+- Do not add `--add-opens` or unsafe-memory JVM flags without a matching failure and documented dependency requirement.
+- Do not commit, push, publish, or deploy unless the user explicitly asks.
+
+### Primary references
+
+- [Official Spring Boot 4.0 Migration Guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide)
+- [Spring Boot 4 reference documentation](https://docs.spring.io/spring-boot/4.0/)
+- [Spring Security migration documentation](https://docs.spring.io/spring-security/reference/migration/)
+- [JEP 491: Synchronize Virtual Threads without Pinning](https://openjdk.org/jeps/491)
+
+### Author and license
+
+Author: [dingdaoyi](https://github.com/dingdaoyi)
+
+Released under the [MIT License](LICENSE) for personal and commercial use.
