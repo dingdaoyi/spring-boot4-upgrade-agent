@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "spring-boot4-upgrade",
+  "description": "Spring Boot 3.5 to 4.x migration skills and diagnostics.",
+  "owner": {
+    "name": "dingdaoyi"
+  },
+  "plugins": [
+    {
+      "name": "spring-boot4-upgrade",
+      "source": ".",
+      "description": "Audit and execute evidence-based Spring Boot 3.5 to 4.x migrations."
+    }
+  ]
+}

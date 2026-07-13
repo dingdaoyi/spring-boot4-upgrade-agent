@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "spring-boot4-upgrade",
+  "version": "1.0.0",
+  "description": "Audit and execute evidence-based Spring Boot 3.5 to 4.x migrations.",
+  "author": {
+    "name": "dingdaoyi"
+  },
+  "repository": "https://github.com/dingdaoyi/spring-boot4-upgrade-agent",
+  "license": "MIT",
+  "keywords": [
+    "spring-boot",
+    "migration",
+    "java",
+    "upgrade"
+  ]
+}

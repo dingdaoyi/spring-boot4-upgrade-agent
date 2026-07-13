@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spring Boot 4 Upgrade"
+  short_description: "Audit and execute Spring Boot 3.5 to 4.x migrations"
+  default_prompt: "Use $spring-boot4-upgrade to audit this project and execute a staged Spring Boot 4 migration with runtime verification."
