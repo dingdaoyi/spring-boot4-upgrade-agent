@@ -26,7 +26,22 @@
 
 ### 安装
 
-#### Codex
+#### 通用安装（推荐）
+
+使用 [Skills CLI](https://skills.sh/) 安装。CLI 会识别仓库中的 `spring-boot4-upgrade`，并安装到你选择的 Agent：
+
+```bash
+npx skills add dingdaoyi/spring-boot4-upgrade-agent
+```
+
+无人值守安装到 Codex 的全局 Skill 目录：
+
+```bash
+npx skills add dingdaoyi/spring-boot4-upgrade-agent \
+  --skill spring-boot4-upgrade --agent codex --global --yes --copy
+```
+
+#### Codex 手动安装
 
 ```bash
 git clone https://github.com/dingdaoyi/spring-boot4-upgrade-agent.git
@@ -54,6 +69,16 @@ claude --plugin-dir .
 ```
 
 完整的 Skill 命令为 `/spring-boot4-upgrade:spring-boot4-upgrade`。
+
+#### GitHub Copilot CLI
+
+Copilot CLI 可以直接从 GitHub 仓库安装这个插件：
+
+```bash
+copilot plugin install dingdaoyi/spring-boot4-upgrade-agent
+```
+
+安装完成后，可在 Copilot CLI 中通过 `/skills list` 确认 `spring-boot4-upgrade` 已加载。
 
 #### 直接运行升级审计
 
@@ -138,7 +163,22 @@ The skill does not maintain a supposedly universal third-party version table. It
 
 ### Installation
 
-#### Codex
+#### Universal installation (recommended)
+
+Install with the [Skills CLI](https://skills.sh/). The CLI discovers `spring-boot4-upgrade` in this repository and installs it for the agent you select:
+
+```bash
+npx skills add dingdaoyi/spring-boot4-upgrade-agent
+```
+
+For an unattended global Codex installation:
+
+```bash
+npx skills add dingdaoyi/spring-boot4-upgrade-agent \
+  --skill spring-boot4-upgrade --agent codex --global --yes --copy
+```
+
+#### Manual Codex installation
 
 ```bash
 git clone https://github.com/dingdaoyi/spring-boot4-upgrade-agent.git
@@ -166,6 +206,16 @@ claude --plugin-dir .
 ```
 
 The fully qualified skill command is `/spring-boot4-upgrade:spring-boot4-upgrade`.
+
+#### GitHub Copilot CLI
+
+Copilot CLI can install the plugin directly from its GitHub repository:
+
+```bash
+copilot plugin install dingdaoyi/spring-boot4-upgrade-agent
+```
+
+After installation, run `/skills list` in Copilot CLI to confirm that `spring-boot4-upgrade` is loaded.
 
 #### Run the audit directly
 
